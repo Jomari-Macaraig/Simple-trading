@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  postgres:
+    extends:
+      file: base.yml
+      service: postgres
+    container_name: postgres-trading-dev
+
+  rabbitmq:
+    extends:
+      file: base.yml
+      service: rabbitmq
+    container_name: rabbitmq-trading-dev
+
+  web:
+    extends:
+      file: base.yml
+      service: web
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "8000:8000"
+      - "2326:22"
+    container_name: web-trading-dev
