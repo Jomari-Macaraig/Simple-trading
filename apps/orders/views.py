@@ -11,7 +11,6 @@ class OrderCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        process_order.apply_async(kwargs={"order_id": serializer.instance.id})
 
 
 class OrderSummaryAPI(ListAPIView):
