@@ -86,15 +86,14 @@ def process_bulk_order(bulk_order_id: int):
             bulk_order.save()
             return
 
-        for order in orders:
-            bulk_order.orders.add(
-                Order.objects.create(
-                    stock=order["stock"],
-                    user=user,
-                    quantity=order["quantity"],
-                    type=order["type"],
-                    epoch=epoch,
-                )
+        for order_data in orders:
+            order = Order.objects.create(
+                stock=order_data["stock"],
+                user=user,
+                quantity=order_data["quantity"],
+                type=order_data["type"],
+                epoch=epoch,
             )
+            bulk_order.orders.add(order)
         bulk_order.status = BulkOrderStatus.COMPLETED.value
         bulk_order.save()
