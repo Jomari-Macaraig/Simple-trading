@@ -66,7 +66,23 @@ $ python manage.py createsuperuser
 $ python manage.py runserver 0.0.0.0:8000
 ```
 
+### 8. Create wallet using django admin
+### 9. Deposit to user's account using django admin
+### 10. Create stock using django admin
 
+# Coding Test
+- Please see __/api/v1/order__ for creation of Order
+- Please see __api/v1/order/upload/(filename)__ for bulk creation of orders. Note: Use postman to upload file
+- Please see __tasks.py__ file in orders app.
+- Please see __/api/v1/wallet/balance/(ticker)__ for retrieving total value invested in a single stock.
 
-# Improvements
+## Additional
+
+- __/api/v1/wallet/balance/__ for list stock balances
+- __/api/v1/wallet__ for wallet information
+
+# Improvements (Due to time constraint)
 - Use storage backend like AWS S3
+- Create API for wallet creation and wallet transaction i.e Deposit and Withdrawal
+- Create API for stock creation
+- Create unittest
