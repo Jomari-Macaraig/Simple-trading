@@ -30,3 +30,6 @@ class OrderSummaryAPI(ListAPIView):
 class BulkOrderCreateAPIView(CreateAPIView):
     model = BulkOrder
     serializer_class = BuldOrderSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

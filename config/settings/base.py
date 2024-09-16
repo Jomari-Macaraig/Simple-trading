@@ -26,6 +26,7 @@ def get_env_variable(var_name: str) -> str:
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -177,5 +178,5 @@ CELERY_BROKER_URL = "amqp://{}:{}@{}:{}/{}".format(
 )
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(PROJECT_DIR, "media")
 MEDIA_URL = "/media/"

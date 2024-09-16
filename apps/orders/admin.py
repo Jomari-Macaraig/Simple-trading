@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Order, BulkOrder
+from .models import Order, BulkOrder, BulkOrderToOrder
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -12,9 +12,15 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class BulkOrderAdmin(admin.ModelAdmin):
-    list_display = ("file", "status")
-    readonly_fields = ("file", "status")
+    list_display = ("uid", "file", "remarks", "status")
+    readonly_fields = ("uid", "file", "remarks", )
+
+
+class BulkOrderToOrderAdmin(admin.ModelAdmin):
+    list_display = ("order", "bulk_order")
+    readonly_fields = ("order", "bulk_order")
 
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(BulkOrder, BulkOrderAdmin)
+admin.site.register(BulkOrderToOrder, BulkOrderToOrderAdmin)

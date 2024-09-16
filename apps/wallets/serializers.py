@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from . models import Wallet, Balance
+from .models import Wallet, Balance
 
 
 class WalletSerializer(serializers.ModelSerializer):

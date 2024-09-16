@@ -1,7 +1,6 @@
 from django.db import models
 
 from apps.base.models import Audit, DECIMAL_MAX_DIGITS, DECIMAL_MAX_DECIMAL_PLACES
-
 from .managers import StockQueryset
 
 

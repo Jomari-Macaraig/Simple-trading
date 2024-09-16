@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Union
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -23,19 +24,20 @@ class Wallet(Audit):
 
     objects = WalletQueryset.as_manager()
 
-    def check_balance(self, stock: Stock, order_type: OrderType, quantity: Decimal) -> None:
+    def check_balance(self, stock: Stock, order_type: OrderType, quantity: Union[Decimal, str]) -> None:
+        quantity = Decimal(quantity)
         if order_type == OrderType.BUY:
             stock_value = stock.price * quantity
             if stock_value > self.running_balance:
-                raise InsufficientBalance
+                raise InsufficientBalance(f"User has insufficient running balance")
         else:
             try:
                 balance = self.balance_set.get(stock=stock)
             except Balance.DoesNotExist:
-                raise InsufficientBalance
+                raise InsufficientBalance(f"User has insufficient stock balance")
 
             if quantity > balance.quantity:
-                raise InsufficientBalance
+                raise InsufficientBalance(f"User has insufficient stock balance")
 
     def __str__(self):
         return f"{self.uid}"

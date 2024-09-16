@@ -1,8 +1,8 @@
-from config.celery import app
 from django.db import transaction
 
+from config.celery import app
 from .constants import WalletTransactionType, WalletTransactionStatus
-from .models import Wallet, WalletTransaction
+from .models import WalletTransaction
 
 
 @app.task(name="wallet.process_wallet_transaction")

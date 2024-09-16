@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
 from apps.base.models import DECIMAL_MAX_DIGITS, DECIMAL_MAX_DECIMAL_PLACES
+from apps.stocks.exceptions import TickerNotFound
 from apps.stocks.models import Stock
 from apps.wallets.exceptions import InsufficientBalance
-from apps.wallets.models import Wallet
-from .constants import OrderType
+from apps.wallets.exceptions import WalletNotFound
+from .exceptions import OrderTypeNotFound
 from .models import Order, BulkOrder
 
 
@@ -27,27 +28,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         super().validate(attrs=attrs)
-        ticker = attrs.pop("ticker")
         try:
-            stock = Stock.objects.active().get(ticker=ticker)
-        except Stock.DoesNotExist:
-            raise serializers.ValidationError({"ticker": "This ticker does not exist"})
-
-        attrs["stock"] = stock
-
-        try:
-            wallet = self.context["request"].user.wallet
-        except Wallet.DoesNotExist:
-            raise serializers.ValidationError({"wallet": "User has no wallet"})
-
-        try:
-            wallet.check_balance(
-                stock=stock,
-                order_type=OrderType.BUY if attrs["type"] == OrderType.BUY.value else OrderType.SELL,
-                quantity=attrs["quantity"],
-            )
+            Order.objects.validate_order(user=self.context["request"].user, data=attrs)
+        except TickerNotFound:
+            raise serializers.ValidationError({"ticker": "This ticker does not exist."})
+        except WalletNotFound:
+            raise serializers.ValidationError({"wallet": "User has no wallet."})
         except InsufficientBalance:
-            raise serializers.ValidationError({"ticker": "Insufficient Balance"})
+            raise serializers.ValidationError({"ticker": "Insufficient Balance."})
+        except OrderTypeNotFound:
+            raise serializers.ValidationError({"type": "Invalid order type."})
+
+        ticker = attrs.pop("ticker")
+        attrs["stock"] = Stock.objects.active().get(ticker=ticker)
 
         return attrs
 

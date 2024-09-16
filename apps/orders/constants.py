@@ -16,5 +16,5 @@ class OrderStatus(BaseEnum):
 
 class BulkOrderStatus(BaseEnum):
     PENDING = "PENDING"
-    INSUFFICIENT_FUND = "INSUFFICIENT_FUND"
+    FAILED = "FAILED"
     COMPLETED = "COMPLETED"
