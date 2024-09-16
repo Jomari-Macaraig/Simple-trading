@@ -1,7 +1,5 @@
-from django.db.models import QuerySet
+from apps.base.managers import BaseQueryset
 
 
-class StockQueryset(QuerySet):
-
-    def active(self):
-        return self.filter(is_active=True)
+class StockQueryset(BaseQueryset):
+    pass

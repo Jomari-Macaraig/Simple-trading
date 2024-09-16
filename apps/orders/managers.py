@@ -1,5 +1,4 @@
 from django.db.models import (
-    QuerySet,
     Sum,
     F,
     Case,
@@ -7,13 +6,11 @@ from django.db.models import (
     DecimalField,
 )
 
+from apps.base.managers import BaseQueryset
 from .constants import OrderType
 
 
-class OrderQueryset(QuerySet):
-
-    def active(self):
-        return self.filter(is_active=True)
+class OrderQueryset(BaseQueryset):
 
     def calculate_summary(self):
         queryset = self.values("status").annotate(

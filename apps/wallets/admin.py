@@ -5,8 +5,9 @@ from .tasks import process_wallet_transaction
 
 
 class WalletAdmin(admin.ModelAdmin):
-    list_display = ("user", "uid", "running_balance")
-    fields = ("user",)
+    list_display = ("user", "uid", "running_balance", "is_active")
+    list_editable = ("is_active",)
+    fields = ("user", "is_active")
 
 
 class WalletTransactionAdmin(admin.ModelAdmin):

@@ -9,7 +9,7 @@ from apps.orders.constants import OrderType
 from apps.stocks.models import Stock
 from .constants import WalletTransactionType, WalletTransactionStatus
 from .exceptions import InsufficientBalance
-from .managers import BalanceQueryset
+from .managers import BalanceQueryset, WalletQueryset
 
 
 class Wallet(Audit):
@@ -21,6 +21,8 @@ class Wallet(Audit):
         default=0
     )
 
+    objects = WalletQueryset.as_manager()
+
     def check_balance(self, stock: Stock, order_type: OrderType, quantity: Decimal) -> None:
         if order_type == OrderType.BUY:
             stock_value = stock.price * quantity
@@ -28,7 +30,7 @@ class Wallet(Audit):
                 raise InsufficientBalance
         else:
             try:
-                balance = self.wallet.balance_set.get(stock=stock)
+                balance = self.balance_set.get(stock=stock)
             except Balance.DoesNotExist:
                 raise InsufficientBalance
 

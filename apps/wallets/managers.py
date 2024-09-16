@@ -1,11 +1,14 @@
 from decimal import Decimal
 
-from django.db.models import QuerySet
-
+from apps.base.managers import BaseQueryset
 from apps.stocks.models import Stock
 
 
-class BalanceQueryset(QuerySet):
+class WalletQueryset(BaseQueryset):
+    pass
+
+
+class BalanceQueryset(BaseQueryset):
 
     def create_or_update(self, wallet, stock: Stock, quantity: Decimal):
         try:
