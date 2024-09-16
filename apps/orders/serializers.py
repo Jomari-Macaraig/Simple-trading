@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from apps.base.models import DECIMAL_MAX_DIGITS, DECIMAL_MAX_DECIMAL_PLACES
-from apps.stock.models import Stock
+from apps.stocks.models import Stock
 from .models import Order
 
 

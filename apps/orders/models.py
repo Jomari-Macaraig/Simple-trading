@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from apps.base.models import Audit, DECIMAL_MAX_DIGITS, DECIMAL_MAX_DECIMAL_PLACES
-from apps.stock.models import Stock
+from apps.stocks.models import Stock
 
 from .constants import OrderType, OrderStatus
 from .managers import OrderQueryset
