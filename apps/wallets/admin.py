@@ -10,11 +10,10 @@ class WalletAdmin(admin.ModelAdmin):
 
 class WalletTransactionAdmin(admin.ModelAdmin):
     list_display = ("wallet", "type", "status")
+    readonly_fields = ["status",]
 
     def get_readonly_fields(self, request, obj=None):
         read_only_fields = list(super().get_readonly_fields(request=request, obj=obj))
-        if not obj or (obj and obj.status == WalletTransactionStatus.COMPLETED.value):
-            read_only_fields.append("status")
         if obj:
             read_only_fields.extend(["wallet", "type", "amount"])
         return read_only_fields

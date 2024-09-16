@@ -53,6 +53,8 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "django_celery_beat",
+    "django_celery_results",
 ]
 
 LOCAL_APPS = [
@@ -163,3 +165,13 @@ REST_FRAMEWORK = {
     ],
     "PAGE_SIZE": 10
 }
+
+# CELERY CONFIGURATION
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_BROKER_URL = "amqp://{}:{}@{}:{}/{}".format(
+    get_env_variable("RABBITMQ_DEFAULT_USER"),
+    get_env_variable("RABBITMQ_DEFAULT_PASS"),
+    get_env_variable("RABBITMQ_HOST"),
+    get_env_variable("RABBITMQ_PORT"),
+    get_env_variable("RABBITMQ_DEFAULT_VHOST"),
+)

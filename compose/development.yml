@@ -13,14 +13,35 @@ services:
       service: rabbitmq
     container_name: rabbitmq-trading-dev
 
+  celery:
+    extends:
+      file: base.yml
+      service: base
+    command: celery -A config worker -l info
+    depends_on:
+      - rabbitmq
+    container_name: celery
+
+  celery-beat:
+    extends:
+      file: base.yml
+      service: base
+    command: celery -A config beat -l info
+    depends_on:
+      - rabbitmq
+    container_name: celery-beat
+
   web:
     extends:
       file: base.yml
-      service: web
+      service: base
     depends_on:
       - postgres
       - rabbitmq
+      - celery
+      - celery-beat
     ports:
       - "8000:8000"
       - "2326:22"
     container_name: web-trading-dev
+    command: [ "/usr/sbin/sshd", "-D" ]

@@ -28,13 +28,30 @@ services:
       - "${RABBITMQ_PORT}:5672"
     container_name: rabbitmq-trading
 
-  web:
+  base:
     restart: always
     build:
       context: ../
-    image: web-trading
+    image: base-trading
     volumes:
       - ../:/srv/trader
-    container_name: web-trading
-    working_dir: "/srv/trader"
-    command: "/usr/sbin/sshd -D"
+    container_name: base-trading
+    working_dir: /srv/trader
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - DJANGO_SECRET_KEY=${DJANGO_SETTINGS_MODULE}
+      - POSTGRES_SUPER_USER=${POSTGRES_SUPER_USER}
+      - POSTGRES_SUPER_USER_PASSWORD=${POSTGRES_SUPER_USER_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}

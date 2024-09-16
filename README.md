@@ -35,8 +35,17 @@ $ make initialize_database
 $ make initialize_rabbitmq
 ```
 
-### 3. Spin up web, postgres and rabbitmq services.
+### 3. Spin up  the services (web, postgres, rabbitmq, celery and celery-beat).
 ```commandline
-$ docker-compose -f compose/development.yml run --rm --name web --service-ports web /bin/bash
-$ su trader
+$ docker-compose -f compose/development.yml run -d --rm --name simple-trading-dev --service-ports web
 ```
+
+### 4. SSH to the web service
+```commandline
+$ ssh trader_super@0.0.0.0 -p 2326
+$ sudo su
+$ cd /srv/trader
+$ source .env
+```
+Note:
+- Password is *pass@1234* 

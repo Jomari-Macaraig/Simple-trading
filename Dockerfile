@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
        python3-pip \
        openssh-server \
        tmux \
-       htop
+       htop \
+       sudo
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN pip3 install -U pip
 RUN make initialize_env
