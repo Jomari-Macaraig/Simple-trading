@@ -9,7 +9,7 @@ from .constants import WalletTransactionType, WalletTransactionStatus
 
 class Wallet(Audit):
     uid = models.UUIDField(unique=True, default=generate_uuid, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     running_balance = models.DecimalField(
         max_digits=DECIMAL_MAX_DIGITS,
         decimal_places=DECIMAL_MAX_DECIMAL_PLACES,
