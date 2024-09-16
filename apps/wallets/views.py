@@ -46,4 +46,7 @@ class BalanceListAPIView(ListAPIView):
     serializer_class = BalanceSerializer
 
     def get_queryset(self):
-        return Balance.objects.active()
+        try:
+            return Balance.objects.active().filter(wallet=self.request.user.wallet)
+        except Wallet.DoesNotExist:
+            return Balance.objects.none()
