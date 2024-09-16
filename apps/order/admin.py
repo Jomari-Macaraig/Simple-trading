@@ -4,7 +4,7 @@ from .models import Order
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("user", "ticker", "quantity", "status", "is_active")
+    list_display = ("user", "ticker", "quantity", "type", "status", "is_active")
     list_editable = ("is_active",)
     search_fields = ("user__username",)
 

@@ -1,5 +1,8 @@
 from django.db import models
 
+DECIMAL_MAX_DIGITS = 32
+DECIMAL_MAX_DECIMAL_PLACES = 8
+
 
 class Audit(models.Model):
 
