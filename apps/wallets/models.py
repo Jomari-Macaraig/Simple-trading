@@ -25,7 +25,7 @@ class WalletTransaction(Audit):
     type = models.CharField(max_length=10, choices=zip(WalletTransactionType.list(), WalletTransactionType.list()))
     amount = models.DecimalField(max_digits=DECIMAL_MAX_DIGITS, decimal_places=DECIMAL_MAX_DECIMAL_PLACES)
     status = models.CharField(
-        max_length=10,
+        max_length=18,
         choices=zip(WalletTransactionStatus.list(), WalletTransactionStatus.list()),
         default=WalletTransactionStatus.PENDING.value,
     )

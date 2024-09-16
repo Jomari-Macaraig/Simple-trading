@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import Wallet, WalletTransaction, Balance
-from .constants import WalletTransactionStatus
+from .models import Wallet, WalletTransaction
+from .tasks import process_wallet_transaction
 
 
 class WalletAdmin(admin.ModelAdmin):
@@ -17,6 +17,11 @@ class WalletTransactionAdmin(admin.ModelAdmin):
         if obj:
             read_only_fields.extend(["wallet", "type", "amount"])
         return read_only_fields
+
+    def save_model(self, request, obj, form, change):
+        response = super().save_model(request=request, obj=obj, form=form, change=change)
+        process_wallet_transaction.apply_async(kwargs={"wallet_transaction_id": obj.id})
+        return response
 
 
 admin.site.register(Wallet, WalletAdmin)

@@ -8,5 +8,5 @@ class WalletTransactionType(BaseEnum):
 
 class WalletTransactionStatus(BaseEnum):
     PENDING = "PENDING"
-    INPROGRESS = "INPROGRESS"
+    INSUFFICIENT_FUNDS = "INSUFFICIENT_FUNDS"
     COMPLETED = "COMPLETED"
