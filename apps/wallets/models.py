@@ -1,10 +1,15 @@
-from django.db import models
+from decimal import Decimal
+
 from django.contrib.auth.models import User
+from django.db import models
 
 from apps.base.models import Audit, DECIMAL_MAX_DIGITS, DECIMAL_MAX_DECIMAL_PLACES
 from apps.base.utils import generate_uuid
+from apps.orders.constants import OrderType
 from apps.stocks.models import Stock
 from .constants import WalletTransactionType, WalletTransactionStatus
+from .exceptions import InsufficientBalance
+from .managers import BalanceQueryset
 
 
 class Wallet(Audit):
@@ -16,8 +21,22 @@ class Wallet(Audit):
         default=0
     )
 
+    def check_balance(self, stock: Stock, order_type: OrderType, quantity: Decimal) -> None:
+        if order_type == OrderType.BUY:
+            stock_value = stock.price * quantity
+            if stock_value > self.running_balance:
+                raise InsufficientBalance
+        else:
+            try:
+                balance = self.wallet.balance_set.get(stock=stock)
+            except Balance.DoesNotExist:
+                raise InsufficientBalance
+
+            if quantity > balance.quantity:
+                raise InsufficientBalance
+
     def __str__(self):
-        return f"{self.user.username.title()}'s Wallet"
+        return f"{self.uid}"
 
 
 class WalletTransaction(Audit):
@@ -34,4 +53,16 @@ class WalletTransaction(Audit):
 class Balance(Audit):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=DECIMAL_MAX_DIGITS, decimal_places=DECIMAL_MAX_DECIMAL_PLACES)
+    quantity = models.DecimalField(
+        max_digits=DECIMAL_MAX_DIGITS,
+        decimal_places=DECIMAL_MAX_DECIMAL_PLACES,
+        default=0
+    )
+
+    objects = BalanceQueryset.as_manager()
+
+    class Meta:
+        unique_together = ("wallet", "stock")
+
+    def __str__(self):
+        return f"{self.wallet}#{self.stock}#{self.quantity}"

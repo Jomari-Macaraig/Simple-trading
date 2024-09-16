@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from .models import Wallet, WalletTransaction
+from .models import Wallet, WalletTransaction, Balance
 from .tasks import process_wallet_transaction
 
 
 class WalletAdmin(admin.ModelAdmin):
     list_display = ("user", "uid", "running_balance")
+    fields = ("user",)
 
 
 class WalletTransactionAdmin(admin.ModelAdmin):
@@ -24,5 +25,11 @@ class WalletTransactionAdmin(admin.ModelAdmin):
         return response
 
 
+class BalanceAdmin(admin.ModelAdmin):
+    list_display = ("wallet", "stock", "quantity")
+    readonly_fields = ("wallet", "stock", "quantity")
+
+
 admin.site.register(Wallet, WalletAdmin)
 admin.site.register(WalletTransaction, WalletTransactionAdmin)
+admin.site.register(Balance, BalanceAdmin)

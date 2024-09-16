@@ -14,7 +14,7 @@ class Order(Audit):
     quantity = models.DecimalField(max_digits=DECIMAL_MAX_DIGITS, decimal_places=DECIMAL_MAX_DECIMAL_PLACES)
     type = models.CharField(max_length=4, choices=zip(OrderType.list(), OrderType.list()))
     status = models.CharField(
-        max_length=16,
+        max_length=17,
         choices=zip(OrderStatus.list(), OrderStatus.list()),
         default=OrderStatus.PENDING.value,
     )
