@@ -49,3 +49,24 @@ $ source .env
 ```
 Note:
 - Password is *pass@1234* 
+
+
+### 5. Run migration
+```commandline
+$ python manage.py migrate
+```
+
+### 6. Create Superuser
+```commandline
+$ python manage.py createsuperuser
+```
+
+### 7. Run development server
+```commandline
+$ python manage.py runserver 0.0.0.0:8000
+```
+
+
+
+# Improvements
+- Use storage backend like AWS S3

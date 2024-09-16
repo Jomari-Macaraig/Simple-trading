@@ -1,7 +1,7 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
 
-from .models import Order
-from .serializers import OrderSerializer, OrderSummarySerializer
+from .models import Order, BulkOrder
+from .serializers import OrderSerializer, OrderSummarySerializer, BuldOrderSerializer
 from .tasks import process_order
 
 
@@ -25,3 +25,8 @@ class OrderSummaryAPI(ListAPIView):
             stock__ticker=ticker,
         ).calculate_summary()
         return queryset
+
+
+class BulkOrderCreateAPIView(CreateAPIView):
+    model = BulkOrder
+    serializer_class = BuldOrderSerializer

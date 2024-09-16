@@ -5,7 +5,7 @@ from apps.stocks.models import Stock
 from apps.wallets.exceptions import InsufficientBalance
 from apps.wallets.models import Wallet
 from .constants import OrderType
-from .models import Order
+from .models import Order, BulkOrder
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -64,3 +64,10 @@ class OrderSummarySerializer(serializers.Serializer):
         max_digits=DECIMAL_MAX_DIGITS,
         decimal_places=DECIMAL_MAX_DECIMAL_PLACES
     )
+
+
+class BuldOrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BulkOrder
+        fields = ("file",)

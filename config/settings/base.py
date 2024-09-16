@@ -175,3 +175,7 @@ CELERY_BROKER_URL = "amqp://{}:{}@{}:{}/{}".format(
     get_env_variable("RABBITMQ_PORT"),
     get_env_variable("RABBITMQ_DEFAULT_VHOST"),
 )
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from apps.base.models import Audit, DECIMAL_MAX_DIGITS, DECIMAL_MAX_DECIMAL_PLACES
 from apps.stocks.models import Stock
 
-from .constants import OrderType, OrderStatus
+from .constants import OrderType, OrderStatus, BulkOrderStatus
 from .managers import OrderQueryset
 
 
@@ -27,3 +27,12 @@ class Order(Audit):
 
     def __str__(self):
         return f"{self.user.username}#{self.type}#{self.stock}#{self.epoch}"
+
+
+class BulkOrder(Audit):
+    file = models.FileField(upload_to="uploads/")
+    status = models.CharField(
+        max_length=17,
+        choices=zip(BulkOrderStatus.list(), BulkOrderStatus.list()),
+        default=BulkOrderStatus.PENDING.value,
+    )
